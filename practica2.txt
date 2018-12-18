@@ -1,0 +1,46 @@
+5 grupos
+
+1) María, Orcajo, Juan -> Programa Cliente
+2) Doyague, Luis -> Métodos: isLogon(), isHeartbeat(), isOrder(), isExecution()...leen del Hashmap
+3) Gonzalo, Vitores, Caba -> Programa Servidor
+4) Arturo, Alejandro -> Clase Mensaje
+5) Sergio, Víctor -> Clase Decodificador
+
+
+-Implementar protocolo de aplicación
+-Sobre sockets TCP
+-Con funciones de capa de sesión
+
+Cliente y servidor con librerías comunes
+
+*Cliente:
+	-Se conecta al socket del servidor
+	-Manda mensajes:
+		·Mensajes de sesión:
+			··Logon
+			··Heartbeats (si manda y no recibe se desconecta)
+			··Logoff
+		·Mensajes de aplicación:
+			··Orden (New Order Single)
+	-Cortar la conexión
+	
+*Servidor: (Cada orden que se recibe se ejecuta. Si se corta la conexión volver a abrir la conexión y volver a esperar)
+	Espera la conexión
+	-Recibe mensajes:
+		·Sesión:
+			··Logon
+			··Heartbeat
+			··Logoff
+		·Aplicación:
+			··New Order Single
+	-Envía mensajes:
+		·Sesión:
+			··Heartbeat
+		·Aplicación:
+			··Execution
+	-Cortar la conexión
+
+*Librerías comunes (Se necesita una que permita generar y leer el mensaje FIX en una clase que se llame Mensaje, también se necesitará una clase Decodificador)
+	-Mensaje: Constructor que tome un Hashmap (dicho Hashmap se almacenará como una variable)
+	-Mensaje: Método "print" que genera texto con la estructura FIX.
+	-Decodificador: Método estático "decodificar" parseado del mensaje FIX y devuelve un Hashmap.
